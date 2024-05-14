@@ -1,3 +1,5 @@
+//CRUD de memória
+
 const express = require('express')
 const app = express()
 
@@ -16,7 +18,7 @@ const itens = ['Rick Sanchez', 'Morty Smith', 'Summer Smith']
 
 // Endpoint de Read All [GET] /item
 app.get('/item', function (req, res) {
-  res.send(itens)
+  res.send(itens.filter(Boolean))
 })
 
 // Endpoint de Read By ID [GET] /item/:id
