@@ -50,4 +50,20 @@ app.post('/item', function (req, res) {
   res.send('Item adicionado com sucesso: ' + novoItem)
 })
 
+// EndPoint de Update [PUT] /item/:id
+app.put('/item/:id', function (req, res) {
+  //aAcessar o ID do parâmetro da rota
+  const id = req.params.id
+
+  //Acessar o item, a ser atualizado, apartir do corpo da requisição
+  const body = req.body
+  const atualizarItem = body.nome
+
+  //Atualizar na lista o item recebido
+  itens[id - 1] = atualizarItem
+
+  //Enviar uma mensagem de sucesso
+  res.send('Item atualizado com sucesso: ' + id + ', '+ atualizarItem)
+})
+
 app.listen(3000)
