@@ -24,16 +24,18 @@ async function main() {
 
   // Lista de Itens
   const itens = ['Rick Sanchez', 'Morty Smith', 'Summer Smith']
-  //     0               1              2
-
+  //              0               1              2
 
   const db = client.db(dbName)
   const collection = db.collection('item')
 
   // Endpoint de Read All [GET] /item
-  app.get('/item',async function (req, res) {
-    const documents = await collection.find().toArray()
-    res.send(documents)
+  app.get('/item', async function (req, res) {
+    // Acesso a lista de documentos na collection
+    const documentos = await collection.find().toArray()
+
+    // Envio os documentos como resposta
+    res.send(documentos)
   })
 
   // Endpoint de Read By ID [GET] /item/:id
@@ -41,9 +43,8 @@ async function main() {
     // Acessamos o parâmetro de rota ID
     const id = req.params.id
 
-
-//Acessamos o item na collection usando o ID
-    const item = await collection.findOne({_id: new ObjectId(id)})
+    // Acessamos o item na collection usando o ID
+    const item = await collection.findOne({ _id: new ObjectId(id) })
 
     // Enviamos o item encontrado como resposta
     res.send(item)
@@ -61,8 +62,8 @@ async function main() {
     // Acessar o item no corpo da requisição
     const novoItem = body.nome
 
-    // Adicionar o novo item na lista
-    itens.push(novoItem)
+    // Adicionar o novo item na collection
+    collection.insertOne({ nome: novoItem })
 
     // Enviar uma mensagem de sucesso
     res.send('Item adicionado com sucesso: ' + novoItem)
