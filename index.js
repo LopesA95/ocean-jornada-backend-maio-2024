@@ -1,7 +1,8 @@
+require('dotenv').config()
 const express = require('express')
 const { MongoClient, ObjectId } = require('mongodb')
 
-const dbUrl = 'mongodb+srv://andersonlopes017al:2GtDPjynMcjJHMsx@cluster0.ydcvefw.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0'
+const dbUrl = process.env.DATABASE_URL
 const dbName = 'ocean-jornada-vkacend-maio-2024'
 
 const client = new MongoClient(dbUrl)
