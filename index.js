@@ -1,8 +1,8 @@
 const express = require('express')
 const { MongoClient, ObjectId } = require('mongodb')
 
-const dbUrl = 'mongodb+srv://admin:JHy9QG6y9kLJItWK@cluster0.jg2n1i9.mongodb.net'
-const dbName = 'ocean-jornada-backend-maio-2024'
+const dbUrl = 'mongodb+srv://andersonlopes017al:2GtDPjynMcjJHMsx@cluster0.ydcvefw.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0'
+const dbName = 'ocean-jornada-vkacend-maio-2024'
 
 const client = new MongoClient(dbUrl)
 
@@ -70,7 +70,7 @@ async function main() {
   })
 
   // Endpoint de Update [PUT] /item/:id
-  app.put('/item/:id', function (req, res) {
+  app.put('/item/:id',async function (req, res) {
     // Acessar o ID do parâmetro de rota
     const id = req.params.id
 
@@ -79,20 +79,23 @@ async function main() {
     const body = req.body
     const atualizarItem = body.nome
 
-    // Atualizar na lista o item recebido
-    itens[id - 1] = atualizarItem
+    //Atualizar na collection o item recebido
+    await collection.updateOne(
+      { _id: new ObjectId(id) },
+      { $set: { nome: atualizarItem }}
+    )
 
     // Enviamos uma mensagem de sucesso
     res.send('Item atualizado com sucesso: ' + id + ', ' + atualizarItem)
   })
 
   // Endpoint de Delete [DELETE] /item/:id
-  app.delete('/item/:id', function (req, res) {
+  app.delete('/item/:id',async function (req, res) {
     // Acessar o parâmetro de rota ID
     const id = req.params.id
 
     // Executa a operação de exclusão desse item pelo índice
-    delete itens[id - 1]
+    await collection.deleteOne({ _id: new ObjectId(id) })
 
     // Enviamos uma mensagem de sucesso
     res.send('Item removido com sucesso: ' + id)
